@@ -1,53 +1,53 @@
 {
     "methods": {
         "balance_of": {
-            "input": "pool.balance_of_arguments",
-            "output": "pool.balance_of_result",
+            "argument": "pool.balance_of_arguments",
+            "return": "pool.balance_of_result",
             "description": "Get value of KOIN/VHP based on PVHP held by address",
-            "entryPoint": 1550980247,
-            "readOnly": true
+            "entry_point": 1550980247,
+            "read_only": true
         },
         "basis": {
-            "input": "pool.basis_arguments",
-            "output": "pool.basis_result",
+            "argument": "pool.basis_arguments",
+            "return": "pool.basis_result",
             "description": "Get internal basis used for tracking profit between reburns",
-            "entryPoint": 2812528886,
-            "readOnly": true
+            "entry_point": 2812528886,
+            "read_only": true
         },
         "deposit_koin": {
-            "input": "pool.deposit_koin_arguments",
-            "output": "pool.deposit_koin_result",
+            "argument": "pool.deposit_koin_arguments",
+            "return": "pool.deposit_koin_result",
             "description": "Deposit KOIN",
-            "entryPoint": 533371977,
-            "readOnly": false
+            "entry_point": 533371977,
+            "read_only": false
         },
         "deposit_vhp": {
-            "input": "pool.deposit_vhp_arguments",
-            "output": "pool.deposit_vhp_result",
+            "argument": "pool.deposit_vhp_arguments",
+            "return": "pool.deposit_vhp_result",
             "description": "Deposit VHP",
-            "entryPoint": 2396116866,
-            "readOnly": false
+            "entry_point": 2396116866,
+            "read_only": false
         },
         "withdraw_koin": {
-            "input": "pool.withdraw_koin_arguments",
-            "output": "pool.withdraw_koin_result",
+            "argument": "pool.withdraw_koin_arguments",
+            "return": "pool.withdraw_koin_result",
             "description": "Withdraw KOIN for an amount of PVHP",
-            "entryPoint": 3351521879,
-            "readOnly": false
+            "entry_point": 3351521879,
+            "read_only": false
         },
         "withdraw_vhp": {
-            "input": "pool.withdraw_vhp_arguments",
-            "output": "pool.withdraw_vhp_result",
+            "argument": "pool.withdraw_vhp_arguments",
+            "return": "pool.withdraw_vhp_result",
             "description": "Withdraw VHP for an amount of PVHP",
-            "entryPoint": 3244363197,
-            "readOnly": false
+            "entry_point": 3244363197,
+            "read_only": false
         },
         "reburn": {
-            "input": "pool.reburn_arguments",
-            "output": "pool.reburn_result",
+            "argument": "pool.reburn_arguments",
+            "return": "pool.reburn_result",
             "description": "Burn KOIN held by contract for VHP, distribute profit share to operator",
-            "entryPoint": 2046298892,
-            "readOnly": false
+            "entry_point": 2046298892,
+            "read_only": false
         }
     },
     "types": {
