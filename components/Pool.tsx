@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import Balance from "./Balance";
+import YourWallet from "./YourWallet";
+import PoolContract from "./PoolContract";
 
 export default function Pool() {
   return (
@@ -10,7 +11,8 @@ export default function Pool() {
       padding="4"
       margin="4"
     >
-      <Balance />
+      <YourWallet />
+      <PoolContract />
     </Box>
   );
 }
