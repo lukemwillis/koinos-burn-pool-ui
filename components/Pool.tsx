@@ -13,60 +13,62 @@ import { AppContext } from "../context/AppContext";
 import { Contract, utils } from "koilib";
 import PoolActionButton from "./PoolActionButton";
 
-export async function getBalance(
-  owner: string,
-  contract: Contract
-): Promise<string | undefined> {
-  if (contract) {
-    const { result: balanceOfResult } = await contract!.functions.balanceOf<{
-      value: string;
-    }>({
-      owner,
-    });
-
-    return utils.formatUnits(balanceOfResult?.value!, 8);
-  }
-
-  return undefined;
-}
-
-export async function getPoolBalance(
-  account: string,
-  contract: Contract
-): Promise<string | undefined> {
-  if (contract) {
-    const { result: balanceOfResult } = await contract!.functions.balance_of<{
-      value: string;
-    }>({
-      account,
-    });
-
-    return utils.formatUnits(balanceOfResult?.value!, 8);
-  }
-
-  return undefined;
-}
-
 export default function Pool() {
   const {
     state: { account, koinContract, pvhpContract, vhpContract, poolContract },
   } = useContext(AppContext);
 
-  const { data: yourPoolBalance } = useSWR(
-    [account, poolContract],
-    getPoolBalance
+  const getBalance =
+    (
+      owner: string,
+      contract: Contract | undefined
+    ): (() => Promise<string | undefined>) =>
+    async () => {
+      if (!contract) return;
+
+      const { result: balanceOfResult } = await contract!.functions.balanceOf<{
+        value: string;
+      }>({
+        owner,
+      });
+
+      return utils.formatUnits(balanceOfResult?.value!, 8);
+    };
+
+  const getPoolBalance = async (): Promise<string | undefined> => {
+    if (!poolContract) return;
+
+    const { result: balanceOfResult } =
+      await poolContract!.functions.balance_of<{
+        value: string;
+      }>({
+        account,
+      });
+
+    return utils.formatUnits(balanceOfResult?.value!, 8);
+  };
+
+  const { data: yourPoolBalance } = useSWR("yourPoolBalance", getPoolBalance);
+  const { data: yourPvhpBalance } = useSWR(
+    "yourPvhpBalance",
+    getBalance(account, pvhpContract)
   );
-  const { data: yourPvhpBalance } = useSWR([account, pvhpContract], getBalance);
-  const { data: yourKoinBalance } = useSWR([account, koinContract], getBalance);
-  const { data: yourVhpBalance } = useSWR([account, vhpContract], getBalance);
+  const { data: yourKoinBalance } = useSWR(
+    "yourKoinBalance",
+    getBalance(account, koinContract)
+  );
+  const { data: yourVhpBalance } = useSWR(
+    "yourVhpBalance",
+    getBalance(account, vhpContract)
+  );
 
   const { data: poolKoinBalance } = useSWR(
-    [process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR, koinContract],
-    getBalance
+    "poolKoinBalance",
+    getBalance(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR!, koinContract)
   );
   const { data: poolVhpBalance } = useSWR(
-    [process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR, vhpContract],
-    getBalance
+    "poolVhpBalance",
+    getBalance(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR!, vhpContract)
   );
 
   return (
