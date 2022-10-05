@@ -1,26 +1,17 @@
-import { useContext } from "react";
 import { Button } from "@chakra-ui/react";
-import { AppContext } from "../context/AppContext";
-import { kondorConnect } from "../context/AppActions";
+import { useAccount } from "../context/AccountProvider";
 
 export default function KondorConnector() {
-  const {
-    state,
-    dispatch,
-  } = useContext(AppContext);
-
-  const connectClick = async () => {
-    await kondorConnect(dispatch, state);
-  };
+  const { account, isConnecting, connect } = useAccount();
 
   return (
     <Button
-      onClick={connectClick}
+      onClick={connect}
       variant="outline"
-      isLoading={state.connecting}
+      isLoading={isConnecting}
       minWidth="unset"
     >
-      {state.connected ? `Connected as ${state.account}` : "Connect with Kondor"}
+      {account ? `Connected as ${account}` : "Connect with Kondor"}
     </Button>
   );
 }

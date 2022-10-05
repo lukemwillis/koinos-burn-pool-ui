@@ -1,39 +1,32 @@
-import { ChangeEvent, useContext, useState, useEffect } from "react";
+import { ChangeEvent, useState } from "react";
 import { Select, Input } from "@chakra-ui/react";
-import { AppContext } from "../context/AppContext";
-import { changeRpc } from "../context/AppActions";
+import { useRpc } from "../context/RpcProvider";
 
 export default function RpcSelector() {
-  const { dispatch, state } = useContext(AppContext);
+  const {rpc, setRpc} = useRpc();
   const [customRpcSelected, setCustomRpcSelected] = useState(false);
-  const [customRpc, setCustomRpc] = useState("");
 
   const onRpcSelect = (e: ChangeEvent<HTMLSelectElement>) => {
     switch (e.target.value) {
       case "koinosblocks":
-        changeRpc(dispatch, state, "https://api.koinosblocks.com");
+        setRpc("https://api.koinosblocks.com");
         break;
       case "koinosio":
-        changeRpc(dispatch, state, "https://api.koinos.io");
+        setRpc("https://api.koinos.io");
         break;
       case "custom":
+        setRpc("");
         setCustomRpcSelected(true);
         break;
     }
   };
 
-  useEffect(() => {
-    if (customRpcSelected && customRpc !== state.rpc) {
-      changeRpc(dispatch, state, customRpc);
-    }
-  }, [customRpcSelected, customRpc, state, dispatch]);
-
   return customRpcSelected ? (
     // TODO debounce
     <Input
       autoFocus
-      value={customRpc}
-      onChange={(e) => setCustomRpc(e.target.value)}
+      value={rpc}
+      onChange={(e) => setRpc(e.target.value)}
       placeholder="https://..."
     />
   ) : (

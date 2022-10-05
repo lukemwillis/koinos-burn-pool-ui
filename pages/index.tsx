@@ -1,16 +1,13 @@
 import type { NextPage } from "next";
 import { Box, Flex } from "@chakra-ui/react";
-import { AppContext } from "../context/AppContext";
 import Nav from "../components/Nav";
-import { useContext } from "react";
 
 import Pool from "../components/Pool";
 import WalletConnector from "../components/KondorConnector";
+import { useAccount } from "../context/AccountProvider";
 
 const Home: NextPage = () => {
-  const {
-    state: { connected },
-  } = useContext(AppContext);
+  const { account } = useAccount();
 
   return (
     <Box>
@@ -21,7 +18,7 @@ const Home: NextPage = () => {
         minHeight="100vh"
         flexDirection="column"
       >
-        {!connected ? <WalletConnector /> : <Pool />}
+        {!account ? <WalletConnector /> : <Pool />}
       </Flex>
     </Box>
   );
