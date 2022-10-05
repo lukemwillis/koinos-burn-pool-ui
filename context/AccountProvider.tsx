@@ -23,15 +23,17 @@ export const AccountProvider = ({
 }): JSX.Element => {
   const [isConnecting, setIsConnecting] = useState(false);
 
-  const [account, setAccount] = useState(() => {
-    if (typeof window === "undefined") return;
-
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    return saved || undefined;
-  });
+  const [account, setAccount] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!account || typeof window === "undefined") return;
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (saved) {
+      setAccount(saved);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!account) return;
     localStorage.setItem(LOCAL_STORAGE_KEY, account);
   }, [account]);
 
