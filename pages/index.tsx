@@ -10,16 +10,17 @@ const Home: NextPage = () => {
   const { account } = useAccount();
 
   return (
-    <Box>
+    <Box minHeight="100vh">
       <Nav />
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-        flexDirection="column"
-      >
-        {!account ? <WalletConnector /> : <Pool />}
-      </Flex>
+      {!account ? (
+        <Box marginTop="40vh" textAlign="center">
+          <WalletConnector />
+        </Box>
+      ) : (
+        <Box padding={8} margin="auto" width="1024px">
+          <Pool />
+        </Box>
+      )}
     </Box>
   );
 };

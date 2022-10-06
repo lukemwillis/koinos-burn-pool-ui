@@ -11,7 +11,7 @@ interface SectionProps {
 export default function Section({ heading, children, colspan = 1, rowspan = 1 }: SectionProps) {
   return (
     <GridItem colSpan={colspan} rowSpan={rowspan}>
-      <Text fontSize='2xl'>{heading}</Text>
+      <Text fontSize='2xl' paddingLeft={3}>{heading}</Text>
       <Box
         borderWidth="thin"
         borderColor="gray.300"
