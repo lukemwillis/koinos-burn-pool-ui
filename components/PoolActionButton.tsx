@@ -132,6 +132,7 @@ export default function PoolActionButton({
               precision={8}
               min={0}
               max={max}
+              size='lg'
             >
               <NumberInputField />
             </NumberInput>

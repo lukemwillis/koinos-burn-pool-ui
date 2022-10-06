@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^2.3.4",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fontsource/prompt": "^4.5.10",
     "@roamin/ecvrf": "^0.2.0",
     "framer-motion": "^6",
     "koilib": "roaminro/koilib#7504cb996001affb04a988aa5d2245258bc5c0ec",

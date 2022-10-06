@@ -4,10 +4,11 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AccountProvider } from "../context/AccountProvider";
 import { RpcProvider } from "../context/RpcProvider";
 import { SwrProvider } from "../context/SwrProvider";
+import theme from "../styles/theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <SwrProvider>
         <AccountProvider>
           <RpcProvider>
