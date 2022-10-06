@@ -8,7 +8,7 @@ export default function Pool() {
   const { account, pool } = useBalances();
 
   return (
-    <Grid templateRows="1fr 2fr" templateColumns="1fr 1fr" gap={6}>
+    <Grid templateRows="auto auto" templateColumns="1fr 1fr" gap={6}>
       <Section heading="Pool Summary" colspan={2}>
         <Flex alignItems="flex-end" justifyContent="space-between">
           <Balance label="Your pVHP" tooltip="Tokens issued to your wallet by the pool" value={account.pvhp?.data} />
