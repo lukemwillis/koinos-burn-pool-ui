@@ -1,10 +1,12 @@
 import type { NextPage } from "next";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import Nav from "../components/Nav";
 
 import Pool from "../components/Pool";
 import WalletConnector from "../components/KondorConnector";
 import { useAccount } from "../context/AccountProvider";
+import { BalancesProvider } from "../context/BalancesProvider";
+import { ContractsProvider } from "../context/ContractsProvider";
 
 const Home: NextPage = () => {
   const { account } = useAccount();
@@ -18,7 +20,11 @@ const Home: NextPage = () => {
         </Box>
       ) : (
         <Box padding={8} margin="auto" width="1024px">
-          <Pool />
+          <ContractsProvider>
+            <BalancesProvider>
+              <Pool />
+            </BalancesProvider>
+          </ContractsProvider>
         </Box>
       )}
     </Box>

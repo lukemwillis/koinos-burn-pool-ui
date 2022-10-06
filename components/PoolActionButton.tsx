@@ -53,13 +53,13 @@ export default function PoolActionButton({
     buttonText = `${action} ${token} →`;
     max = asFloat(
       token === Tokens.KOIN
-        ? accountBalances.koin?.value!
-        : accountBalances.vhp?.value!
+        ? accountBalances.koin?.data!
+        : accountBalances.vhp?.data!
     );
   } else {
     noun = "withdrawal";
     buttonText = `← ${action} ${token}`;
-    max = asFloat(accountBalances.pvhp?.value!);
+    max = asFloat(accountBalances.pvhp?.data!);
   }
 
   const onPoolAction = async () => {
@@ -94,14 +94,14 @@ export default function PoolActionButton({
       });
 
       if (token === Tokens.KOIN) {
-        accountBalances.koin?.refresh();
-        poolBalances.koin?.refresh();
+        accountBalances.koin?.mutate();
+        poolBalances.koin?.mutate();
       } else {
-        accountBalances.vhp?.refresh();
-        poolBalances.vhp?.refresh();
+        accountBalances.vhp?.mutate();
+        poolBalances.vhp?.mutate();
       }
-      accountBalances.pvhp?.refresh();
-      accountBalances.pool?.refresh();
+      accountBalances.pvhp?.mutate();
+      accountBalances.pool?.mutate();
     } catch (e) {
       // If the API errors, the original data will be
       // rolled back by SWR automatically.

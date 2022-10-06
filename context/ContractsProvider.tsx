@@ -4,6 +4,7 @@ import * as kondor from "../node_modules/kondor-js/lib/browser";
 import { useAccount } from "./AccountProvider";
 import { useRpc } from "./RpcProvider";
 import poolAbi from "../contract/abi/pool_abi_js.json";
+import { Spinner } from "@chakra-ui/react";
 
 // @ts-ignore koilib_types is needed when using koilib
 poolAbi.koilib_types = poolAbi.types;
@@ -27,49 +28,45 @@ export const ContractsProvider = ({
   const { account } = useAccount();
   const { rpc } = useRpc();
 
-  const [contracts, setContracts] = useState<ContractsContextType>({});
+  if (!account || !rpc) return <Spinner />;
 
-  useEffect(() => {
-    if (!account || !rpc) return;
-
-    const provider = new Provider(rpc);
-    const signer = kondor.getSigner(account);
-
-    setContracts({
-      koin: new Contract({
-        id: process.env.NEXT_PUBLIC_KOIN_CONTRACT_ADDR,
-        abi: utils.tokenAbi,
-        provider: provider,
-        // @ts-ignore the signer provided is compatible
-        signer: signer,
-      }),
-      vhp: new Contract({
-        id: process.env.NEXT_PUBLIC_VHP_CONTRACT_ADDR,
-        abi: utils.tokenAbi,
-        provider: provider,
-        // @ts-ignore the signer provided is compatible
-        signer: signer,
-      }),
-      pvhp: new Contract({
-        id: process.env.NEXT_PUBLIC_PVHP_CONTRACT_ADDR,
-        abi: utils.tokenAbi,
-        provider: provider,
-        // @ts-ignore the signer provided is compatible
-        signer: signer,
-      }),
-      pool: new Contract({
-        id: process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR,
-        // @ts-ignore the abi provided is compatible
-        abi: poolAbi,
-        provider: provider,
-        // @ts-ignore the signer provided is compatible
-        signer: signer,
-      }),
-    });
-  }, [account, rpc]);
+  const provider = new Provider(rpc);
+  const signer = kondor.getSigner(account);
 
   return (
-    <ContractsContext.Provider value={contracts}>
+    <ContractsContext.Provider
+      value={{
+        koin: new Contract({
+          id: process.env.NEXT_PUBLIC_KOIN_CONTRACT_ADDR,
+          abi: utils.tokenAbi,
+          provider: provider,
+          // @ts-ignore the signer provided is compatible
+          signer: signer,
+        }),
+        vhp: new Contract({
+          id: process.env.NEXT_PUBLIC_VHP_CONTRACT_ADDR,
+          abi: utils.tokenAbi,
+          provider: provider,
+          // @ts-ignore the signer provided is compatible
+          signer: signer,
+        }),
+        pvhp: new Contract({
+          id: process.env.NEXT_PUBLIC_PVHP_CONTRACT_ADDR,
+          abi: utils.tokenAbi,
+          provider: provider,
+          // @ts-ignore the signer provided is compatible
+          signer: signer,
+        }),
+        pool: new Contract({
+          id: process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR,
+          // @ts-ignore the abi provided is compatible
+          abi: poolAbi,
+          provider: provider,
+          // @ts-ignore the signer provided is compatible
+          signer: signer,
+        }),
+      }}
+    >
       {children}
     </ContractsContext.Provider>
   );
