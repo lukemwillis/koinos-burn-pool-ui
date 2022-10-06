@@ -10,7 +10,7 @@ export default function Nav() {
       <Flex h={20} alignItems={"center"} justifyContent={"space-between"}>
         <Stack direction="row">
           <Image
-            src="/burnkoin.svg"
+            src={useColorModeValue("/logo.svg", "/logo-dark.svg")}
             alt="Burn Koin Logo"
             width="64px"
             height="64px"
