@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "@fontsource/prompt";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AccountProvider } from "../context/AccountProvider";
