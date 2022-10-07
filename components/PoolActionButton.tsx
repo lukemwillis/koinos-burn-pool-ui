@@ -17,7 +17,9 @@ import { utils } from "koilib";
 import { useDisclosure } from "@chakra-ui/react";
 import { useAccount } from "../context/AccountProvider";
 import { useContracts } from "../context/ContractsProvider";
-import { asFloat, useBalances } from "../context/BalancesProvider";
+import { usePoolBalances } from "../context/PoolBalancesProvider";
+import { useAccountBalances } from "../context/AccountBalancesProvider";
+import { asFloat } from "../context/BalanceUtils";
 
 export enum Actions {
   Deposit = "Deposit",
@@ -40,7 +42,8 @@ export default function PoolActionButton({
 }: PoolActionButtonProps) {
   const { account } = useAccount();
   const { pool: poolContract } = useContracts();
-  const { account: accountBalances, pool: poolBalances } = useBalances();
+  const accountBalances = useAccountBalances();
+  const poolBalances = usePoolBalances();
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();

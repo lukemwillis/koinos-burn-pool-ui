@@ -1,12 +1,23 @@
 import { Button } from "@chakra-ui/react";
 import { useAccount } from "../context/AccountProvider";
 
-export default function KondorConnector() {
+interface ConnectorProps {
+  onConnect?: () => void;
+}
+
+export default function KondorConnector({ onConnect }: ConnectorProps) {
   const { account, isConnecting, connect } = useAccount();
+
+  const connectCallback = async () => {
+    await connect();
+    if (account && onConnect) {
+      onConnect();
+    }
+  }
 
   return account ? (
     <Button
-      onClick={connect}
+      onClick={connectCallback}
       variant="outline"
       isLoading={isConnecting}
       minWidth="unset"
@@ -16,7 +27,7 @@ export default function KondorConnector() {
     </Button>
   ) : (
     <Button
-      onClick={connect}
+      onClick={connectCallback}
       variant="solid"
       isLoading={isConnecting}
       minWidth="unset"

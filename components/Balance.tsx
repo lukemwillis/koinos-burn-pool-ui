@@ -21,7 +21,7 @@ export default function Balance({ value, label, tooltip }: BalanceProps) {
           </Tooltip>
         )}
       </Text>
-      <Skeleton isLoaded={!!value} marginBottom={3} minWidth="350px" borderRadius={3}>
+      <Skeleton isLoaded={!!value} minWidth="350px" borderRadius={3}>
         <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
           {whole}
         </Text>
