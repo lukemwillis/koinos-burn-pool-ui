@@ -8,36 +8,17 @@ const PoolStats = () => {
   const { koin, vhp } = usePoolBalances();
 
   return (
-    <Box>
-      <Flex>
+    <Box width="750px">
+      <Flex justifyContent="space-between">
         <Balance
-          label="Total KOIN Deposits"
-          tooltip="All KOIN held by pool. Awaiting reburn."
-          value={koin?.data}
+          label="Total Deposits (KOIN + VHP)"
+          value={(parseInt(koin?.data) + parseInt(vhp?.data)).toString()}
         />
-        <Balance
-          label="Total VHP Deposits"
-          tooltip="All VHP held by pool. Currently producing blocks."
-          value={vhp?.data}
-        />
-      </Flex>
-      <Flex marginTop="24px" justifyContent="space-between">
-        <Box>
-          <Text>
-            Blocks Produced{" "}
-            <Tooltip label="Since pool genesis" placement="right" hasArrow>
-              <InfoIcon verticalAlign="text-top" />
-            </Tooltip>
-          </Text>
-          <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
-            TODO
-          </Text>
-        </Box>
         <Box>
           <Text>
             Expected APY{" "}
             <Tooltip
-              label="Assuming 50% of KOIN total supply is burned as VHP"
+              label="Koinos Proof of Burn is expected to return 4% under target conditions. Burn Koin takes a 5% operator fee from block rewards. Your deposits are never touched and there are no other fees. APY may vary based on several factors not controlled by Burn Koin, such as total KOIN burned and VHP actively participating in mining."
               placement="right"
               hasArrow
             >
@@ -45,25 +26,7 @@ const PoolStats = () => {
             </Tooltip>
           </Text>
           <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
-            4
-          </Text>
-          <Text fontSize="3xl" as="span" lineHeight={1}>
-            %
-          </Text>
-        </Box>
-        <Box>
-          <Text>
-            Operator Fee{" "}
-            <Tooltip
-              label="Percent fee taken by operator for running the pool. Your deposited principal is never touched."
-              placement="right"
-              hasArrow
-            >
-              <InfoIcon verticalAlign="text-top" />
-            </Tooltip>
-          </Text>
-          <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
-            5
+            3.8
           </Text>
           <Text fontSize="3xl" as="span" lineHeight={1}>
             %

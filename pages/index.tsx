@@ -29,17 +29,18 @@ const Home: NextPage = () => {
       <Stack direction="row" alignItems="center">
         <Logo size="256px" />
         <Box textAlign="left">
-          <Heading as="h1" size="4xl">
+          <Heading as="h1" size="4xl" fontWeight="thin">
             Burn KOIN.
           </Heading>
-          <Heading as="p" size="4xl">
+          <Heading as="p" size="4xl" fontWeight="thin">
             Earn KOIN.
           </Heading>
-          <Heading as="p" size="4xl">
+          <Heading as="p" size="4xl" fontWeight="thin">
             Simple.
           </Heading>
         </Box>
       </Stack>
+
       <Box marginBottom="5vh">
         {!account ? (
           <WalletConnector onConnect={() => router.push("/dashboard")} />
@@ -56,9 +57,11 @@ const Home: NextPage = () => {
           </Link>
         )}
       </Box>
+
       <PoolBalancesProvider>
         <PoolStats />
       </PoolBalancesProvider>
+      
       <Box textAlign="center" width="750px">
         <Heading>FAQ</Heading>
 

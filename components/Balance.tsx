@@ -23,7 +23,7 @@ export default function Balance({ value, label, tooltip }: BalanceProps) {
       </Text>
       <Skeleton isLoaded={!!value} minWidth="350px" borderRadius={3}>
         <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
-          {whole}
+          {parseInt(whole).toLocaleString()}
         </Text>
         <Text fontSize="3xl" as="span" lineHeight={1}>
           .{decimal}
