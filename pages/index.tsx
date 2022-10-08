@@ -68,7 +68,7 @@ const Home: NextPage = () => {
         <Accordion textAlign="left">
           <AccordionItem>
             <AccordionButton>
-              <Box flex="1">What is this?</Box>
+              <Box flex="1" textAlign="left">What is this?</Box>
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
           </AccordionItem>
           <AccordionItem>
             <AccordionButton>
-              <Box flex="1">How does Proof of Burn work?</Box>
+              <Box flex="1" textAlign="left">How does Proof of Burn work?</Box>
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
@@ -86,7 +86,7 @@ const Home: NextPage = () => {
           </AccordionItem>
           <AccordionItem>
             <AccordionButton>
-              <Box flex="1">Are there any fees?</Box>
+              <Box flex="1" textAlign="left">Are there any fees?</Box>
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
           </AccordionItem>
           <AccordionItem>
             <AccordionButton>
-              <Box flex="1">Can I run my own node?</Box>
+              <Box flex="1" textAlign="left">Can I run my own node?</Box>
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
@@ -104,7 +104,7 @@ const Home: NextPage = () => {
           </AccordionItem>
           <AccordionItem>
             <AccordionButton>
-              <Box flex="1">Who are you?</Box>
+              <Box flex="1" textAlign="left">Who are you?</Box>
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
@@ -113,7 +113,7 @@ const Home: NextPage = () => {
           </AccordionItem>
           <AccordionItem>
             <AccordionButton>
-              <Box flex="1">Is this open source?</Box>
+              <Box flex="1" textAlign="left">Is this open source?</Box>
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
