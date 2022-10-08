@@ -64,14 +64,15 @@ export default function PoolActionButton({
     buttonText = `← ${action} ${token}`;
 
     const accountPool = asFloat(accountBalances.pool?.data!);
+    const accountPvhp = asFloat(accountBalances.pvhp?.data!);
     const poolTokens =
       token === Tokens.KOIN
         ? Math.max(asFloat(poolBalances.mana?.data!) - 10, 0)
         : asFloat(poolBalances.vhp?.data!);
     max =
       accountPool < poolTokens
-        ? asFloat(accountBalances.pvhp?.data!)
-        : poolTokens;
+        ? accountPvhp
+        : parseFloat((poolTokens * accountPvhp / accountPool).toFixed(8));
   }
 
   const onPoolAction = async () => {
@@ -159,7 +160,7 @@ export default function PoolActionButton({
               <NumberInputField />
             </NumberInput>
             <Text>
-              <Link onClick={() => setAmount(max.toString())}>max: {max}</Link>
+              <Link onClick={() => setAmount(max.toString())}>max: {max}</Link>{" "}
               {action === Actions.Withdraw ? "pVHP" : token}
             </Text>
           </ModalBody>
@@ -169,7 +170,7 @@ export default function PoolActionButton({
               colorScheme="blue"
               mr={3}
               onClick={onPoolAction}
-              disabled={asFloat(amount) === 0}
+              disabled={parseFloat(amount) === 0}
             >
               {action} {token}
             </Button>
