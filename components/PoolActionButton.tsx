@@ -158,7 +158,10 @@ export default function PoolActionButton({
             >
               <NumberInputField />
             </NumberInput>
-            <Link onClick={() => setAmount(max.toString())}>max: {max}</Link>
+            <Text>
+              <Link onClick={() => setAmount(max.toString())}>max: {max}</Link>
+              {action === Actions.Withdraw ? "pVHP" : token}
+            </Text>
           </ModalBody>
 
           <ModalFooter>

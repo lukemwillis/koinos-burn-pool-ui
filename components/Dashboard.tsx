@@ -4,13 +4,19 @@ import { useAccountBalances } from "../context/AccountBalancesProvider";
 import Balance from "./Balance";
 import PoolActionButton, { Actions, Tokens } from "./PoolActionButton";
 import Section from "./Section";
+import { utils } from "koilib";
 
 export default function Dashboard() {
   const pool = usePoolBalances();
   const account = useAccountBalances();
 
   return (
-    <Grid templateRows="auto auto auto" templateColumns="1fr 1fr" columnGap={12} rowGap={6}>
+    <Grid
+      templateRows="auto auto auto"
+      templateColumns="1fr 1fr"
+      columnGap={12}
+      rowGap={6}
+    >
       <Section heading="Pool Summary" colspan={2}>
         <Flex alignItems="flex-end" justifyContent="space-between">
           <Balance
@@ -30,7 +36,10 @@ export default function Dashboard() {
         <Box>
           <Balance
             label="Your KOIN"
-            tooltip={`${account.mana?.data || '0'} liquid and available to deposit. You will need to leave a small buffer in your wallet to pay the mana for depositing.`}
+            tooltip={`${utils.formatUnits(
+              account.mana?.data || "0",
+              8
+            )} liquid and available to deposit. You will need to leave a small buffer in your wallet to pay the mana for depositing.`}
             value={account.koin?.data}
           />
           <PoolActionButton action={Actions.Deposit} token={Tokens.KOIN} />
@@ -48,7 +57,10 @@ export default function Dashboard() {
         <Box>
           <Balance
             label="Pool KOIN"
-            tooltip={`All KOIN held by pool and awaiting reburn. ${pool.mana?.data || '0'} is liquid and available to withdraw minus a pool enforced 10 KOIN buffer to pay mana for block production.`}
+            tooltip={`All KOIN held by pool and awaiting reburn. ${utils.formatUnits(
+              pool.mana?.data || "0",
+              8
+            )} is liquid and available to withdraw minus a pool enforced 10 KOIN buffer to pay mana for block production.`}
             value={pool.koin?.data}
           />
           <PoolActionButton action={Actions.Withdraw} token={Tokens.KOIN} />
