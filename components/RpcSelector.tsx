@@ -1,23 +1,22 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Select, Input } from "@chakra-ui/react";
 import { useRpc } from "../context/RpcProvider";
 
+const KOINOS_BLOCKS_URL = "https://api.koinosblocks.com";
+const KOINOS_URL = "https://api.koinos.io";
+
 export default function RpcSelector() {
-  const {rpc, setRpc} = useRpc();
-  const [customRpcSelected, setCustomRpcSelected] = useState(false);
+  const { rpc, setRpc } = useRpc();
+  const [customRpcSelected, setCustomRpcSelected] = useState(
+    rpc !== KOINOS_BLOCKS_URL && rpc !== KOINOS_URL
+  );
 
   const onRpcSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    switch (e.target.value) {
-      case "koinosblocks":
-        setRpc("https://api.koinosblocks.com");
-        break;
-      case "koinosio":
-        setRpc("https://api.koinos.io");
-        break;
-      case "custom":
-        setRpc("");
-        setCustomRpcSelected(true);
-        break;
+    if (e.target.value === "custom") {
+      setRpc("");
+      setCustomRpcSelected(true);
+    } else {
+      setRpc(e.target.value);
     }
   };
 
@@ -30,9 +29,9 @@ export default function RpcSelector() {
       placeholder="https://..."
     />
   ) : (
-    <Select onChange={onRpcSelect}>
-      <option value="koinosblocks">api.koinosblocks.com</option>
-      <option value="koinosio">api.koinos.io</option>
+    <Select onChange={onRpcSelect} defaultValue={rpc}>
+      <option value="https://api.koinosblocks.com">api.koinosblocks.com</option>
+      <option value="https://api.koinos.io">api.koinos.io</option>
       <option value="custom">Enter your own RPC endpoint...</option>
     </Select>
   );

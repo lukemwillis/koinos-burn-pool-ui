@@ -1,4 +1,4 @@
-import { Contract, utils } from "koilib";
+import { Contract, Provider, utils } from "koilib";
 
 export const getPoolBalanceFetcher =
   (
@@ -32,6 +32,19 @@ export const getTokenBalanceFetcher =
     });
 
     return result?.value!;
+  };
+
+export const getManaBalanceFetcher =
+  (
+    account: string | undefined,
+    provider: Provider | undefined
+  ): (() => Promise<string | undefined>) =>
+  async () => {
+    if (!account || !provider) return;
+
+    const mana = await provider.getAccountRc(account);
+
+    return mana;
   };
 
 export function asFloat(value: string): number {

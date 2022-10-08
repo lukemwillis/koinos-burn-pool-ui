@@ -12,7 +12,7 @@ const PoolStats = () => {
       <Flex justifyContent="space-between">
         <Balance
           label="Total Deposits (KOIN + VHP)"
-          value={(parseInt(koin?.data) + parseInt(vhp?.data)).toString()}
+          value={(parseInt(koin?.data) + parseInt(vhp?.data) || "").toString()}
         />
         <Box>
           <Text>

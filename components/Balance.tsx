@@ -1,4 +1,4 @@
-import { InfoIcon } from "@chakra-ui/icons";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { Box, Skeleton, Text, Tooltip } from "@chakra-ui/react";
 
 interface BalanceProps {
@@ -17,7 +17,7 @@ export default function Balance({ value, label, tooltip }: BalanceProps) {
         {label}{" "}
         {tooltip && (
           <Tooltip label={tooltip} placement="right" hasArrow>
-            <InfoIcon verticalAlign="text-top" />
+            <InfoOutlineIcon inlineSize="14px" />
           </Tooltip>
         )}
       </Text>

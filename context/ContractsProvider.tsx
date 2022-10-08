@@ -1,10 +1,9 @@
-import React, { useContext, useState, createContext, useEffect } from "react";
+import React, { useContext, createContext } from "react";
 import { Contract, Provider, Signer, utils } from "koilib";
 import * as kondor from "../node_modules/kondor-js/lib/browser";
 import { useAccount } from "./AccountProvider";
 import { useRpc } from "./RpcProvider";
 import poolAbiJson from "../contract/abi/pool_abi_js.json";
-import { Spinner } from "@chakra-ui/react";
 import { Abi } from "koilib/lib/interface";
 
 const poolAbi: Abi = {
@@ -13,6 +12,7 @@ const poolAbi: Abi = {
 };
 
 type ContractsContextType = {
+  provider?: Provider;
   koin?: Contract;
   vhp?: Contract;
   pvhp?: Contract;
@@ -37,6 +37,7 @@ export const ContractsProvider = ({
   return (
     <ContractsContext.Provider
       value={{
+        provider: provider,
         koin: new Contract({
           id: process.env.NEXT_PUBLIC_KOIN_CONTRACT_ADDR,
           abi: utils.tokenAbi,

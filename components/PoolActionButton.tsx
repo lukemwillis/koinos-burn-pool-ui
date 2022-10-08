@@ -12,6 +12,7 @@ import {
   NumberInput,
   NumberInputField,
   Link,
+  Text,
 } from "@chakra-ui/react";
 import { utils } from "koilib";
 import { useDisclosure } from "@chakra-ui/react";
@@ -54,21 +55,31 @@ export default function PoolActionButton({
   if (action === Actions.Deposit) {
     noun = "deposit";
     buttonText = `${action} ${token} →`;
-    max = asFloat(
+    max =
       token === Tokens.KOIN
-        ? accountBalances.koin?.data!
-        : accountBalances.vhp?.data!
-    );
+        ? Math.max(asFloat(accountBalances.mana?.data!) - 1, 0)
+        : asFloat(accountBalances.vhp?.data!);
   } else {
     noun = "withdrawal";
     buttonText = `← ${action} ${token}`;
-    max = asFloat(accountBalances.pvhp?.data!);
+
+    const accountPool = asFloat(accountBalances.pool?.data!);
+    const poolTokens =
+      token === Tokens.KOIN
+        ? Math.max(asFloat(poolBalances.mana?.data!) - 10, 0)
+        : asFloat(poolBalances.vhp?.data!);
+    max =
+      accountPool < poolTokens
+        ? asFloat(accountBalances.pvhp?.data!)
+        : poolTokens;
   }
 
   const onPoolAction = async () => {
     if (!poolContract) return;
 
-    const result = await poolContract!.functions[`${action.toLowerCase()}_${token.toLowerCase()}`]({
+    const result = await poolContract!.functions[
+      `${action.toLowerCase()}_${token.toLowerCase()}`
+    ]({
       account,
       value: utils.parseUnits(amount, 8),
     });
@@ -116,9 +127,12 @@ export default function PoolActionButton({
       });
     }
   };
+
   return (
     <>
-      <Button onClick={onOpen}>{buttonText}</Button>
+      <Button disabled={max === 0} onClick={onOpen} marginTop="6px">
+        {buttonText}
+      </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -129,13 +143,18 @@ export default function PoolActionButton({
           <ModalCloseButton />
 
           <ModalBody>
+            <Text>
+              {action === Actions.Withdraw
+                ? `pVHP amount to redeem for ${token}`
+                : `${token} amount`}
+            </Text>
             <NumberInput
               value={amount}
               onChange={setAmount}
               precision={8}
               min={0}
               max={max}
-              size='lg'
+              size="lg"
             >
               <NumberInputField />
             </NumberInput>
@@ -143,7 +162,12 @@ export default function PoolActionButton({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onPoolAction}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={onPoolAction}
+              disabled={asFloat(amount) === 0}
+            >
               {action} {token}
             </Button>
             <Button variant="ghost" onClick={onClose}>

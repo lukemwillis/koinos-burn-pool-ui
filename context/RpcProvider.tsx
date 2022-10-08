@@ -25,19 +25,21 @@ export const RpcProvider = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  const [rpc, setRpc] = useState(process.env.NEXT_PUBLIC_KOINOS_RPC_URL!);
+  const [rpc, setRpc] = useState("");
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
     if (saved) {
-        setRpc(saved);
+      setRpc(saved);
+    } else {
+      setRpc(process.env.NEXT_PUBLIC_KOINOS_RPC_URL!);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (!rpc) return;
     localStorage.setItem(LOCAL_STORAGE_KEY, rpc);
-  }, [rpc])
+  }, [rpc]);
 
   return (
     <RpcContext.Provider value={{ rpc, setRpc }}>

@@ -3,7 +3,7 @@ import { useAccount } from "./AccountProvider";
 import poolAbi from "../contract/abi/pool_abi_js.json";
 import { useContracts } from "./ContractsProvider";
 import useSWR, { SWRResponse } from "swr";
-import { getPoolBalanceFetcher, getTokenBalanceFetcher } from "./BalanceUtils";
+import { getManaBalanceFetcher, getPoolBalanceFetcher, getTokenBalanceFetcher } from "./BalanceUtils";
 
 // @ts-ignore koilib_types is needed when using koilib
 poolAbi.koilib_types = poolAbi.types;
@@ -13,6 +13,7 @@ const SWR_KEYS = {
   ACCOUNT_VHP: "account_vhp",
   ACCOUNT_PVHP: "account_pvhp",
   ACCOUNT_POOL: "account_pool",
+  ACCOUNT_MANA: "account_mana",
 };
 
 type BalancesContextType = {
@@ -20,6 +21,7 @@ type BalancesContextType = {
   vhp?: SWRResponse;
   pvhp?: SWRResponse;
   pool?: SWRResponse;
+  mana?: SWRResponse;
 };
 
 export const BalancesContext = createContext<BalancesContextType>({});
@@ -32,7 +34,7 @@ const AccountBalancesProvider = ({
   children: React.ReactNode;
 }): JSX.Element => {
   const { account } = useAccount();
-  const { koin, vhp, pvhp, pool } = useContracts();
+  const { koin, vhp, pvhp, pool, provider } = useContracts();
 
   return (
     <BalancesContext.Provider
@@ -50,6 +52,10 @@ const AccountBalancesProvider = ({
           SWR_KEYS.ACCOUNT_POOL,
           getPoolBalanceFetcher(account, pool)
         ),
+        mana: useSWR(
+          SWR_KEYS.ACCOUNT_MANA,
+          getManaBalanceFetcher(account, provider)
+        )
       }}
     >
       {children}

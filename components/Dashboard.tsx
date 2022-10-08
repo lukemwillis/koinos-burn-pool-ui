@@ -10,7 +10,7 @@ export default function Dashboard() {
   const account = useAccountBalances();
 
   return (
-    <Grid templateRows="auto auto" templateColumns="1fr 1fr" gap={6}>
+    <Grid templateRows="auto auto auto" templateColumns="1fr 1fr" columnGap={12} rowGap={6}>
       <Section heading="Pool Summary" colspan={2}>
         <Flex alignItems="flex-end" justifyContent="space-between">
           <Balance
@@ -18,7 +18,7 @@ export default function Dashboard() {
             tooltip="Tokens issued to your wallet by the pool"
             value={account.pvhp?.data}
           />
-          <Text lineHeight={3.3}>is worth</Text>
+          <Text lineHeight={2}>is worth</Text>
           <Balance
             label="KOIN or VHP"
             tooltip="How much KOIN/VHP you can withdraw from the pool"
@@ -30,7 +30,7 @@ export default function Dashboard() {
         <Box>
           <Balance
             label="Your KOIN"
-            tooltip="Available to deposit"
+            tooltip={`${account.mana?.data || '0'} liquid and available to deposit. You will need to leave a small buffer in your wallet to pay the mana for depositing.`}
             value={account.koin?.data}
           />
           <PoolActionButton action={Actions.Deposit} token={Tokens.KOIN} />
@@ -48,7 +48,7 @@ export default function Dashboard() {
         <Box>
           <Balance
             label="Pool KOIN"
-            tooltip="All KOIN held by pool. Awaiting reburn, available to withdraw."
+            tooltip={`All KOIN held by pool and awaiting reburn. ${pool.mana?.data || '0'} is liquid and available to withdraw minus a pool enforced 10 KOIN buffer to pay mana for block production.`}
             value={pool.koin?.data}
           />
           <PoolActionButton action={Actions.Withdraw} token={Tokens.KOIN} />
@@ -61,6 +61,9 @@ export default function Dashboard() {
           />
           <PoolActionButton action={Actions.Withdraw} token={Tokens.VHP} />
         </Box>
+      </Section>
+      <Section heading="Governance Proposals" colspan={2}>
+        Coming soon...
       </Section>
     </Grid>
   );
