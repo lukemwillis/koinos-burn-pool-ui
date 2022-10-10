@@ -13,15 +13,15 @@ export default function Balance({ value, label, tooltip }: BalanceProps) {
 
   return (
     <Box>
-      <Text>
+      <Text position="relative" zIndex="1">
         {label}{" "}
         {tooltip && (
           <Tooltip label={tooltip} placement="right" hasArrow>
-            <InfoOutlineIcon inlineSize="14px" />
+            <InfoOutlineIcon inlineSize="14px" paddingBottom="0.2em" />
           </Tooltip>
         )}
       </Text>
-      <Skeleton isLoaded={!!value} minWidth="350px" borderRadius={3}>
+      <Skeleton isLoaded={!!value} minWidth="350px" borderRadius={3} position="relative" zIndex="0">
         <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
           {parseInt(whole).toLocaleString()}
         </Text>

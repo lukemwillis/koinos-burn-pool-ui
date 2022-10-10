@@ -19,6 +19,7 @@ import Link from "next/link";
 import PoolBalancesProvider from "../context/PoolBalancesProvider";
 import { useRouter } from "next/router";
 import PoolStats from "../components/PoolStats";
+import OutboundLink from "../components/OutboundLink";
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -72,7 +73,7 @@ const Home: NextPage = () => {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-              Burn Koin is the first burn pool developed for <Link href="https://koinos.io" target="_blank">Koinos</Link>. &quot;Burn pool&quot; is just the name we use for mining pools on Koinos Proof of Burn.
+              Burn Koin is the first burn pool developed for <OutboundLink href="https://koinos.io">Koinos</OutboundLink>. &quot;Burn pool&quot; is just the name we use for mining pools on Koinos Proof of Burn.
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
@@ -81,7 +82,7 @@ const Home: NextPage = () => {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-              Proof of Burn is described in <Link href="https://koinos.io/unified-whitepaper" target="_blank">the Koinos whitepaper</Link>.
+              Proof of Burn is described in <OutboundLink href="https://koinos.io/unified-whitepaper">the Koinos whitepaper</OutboundLink>.
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
@@ -99,7 +100,7 @@ const Home: NextPage = () => {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-              Yes! In fact, you probably should. Koinos mining is very accessible. You might even be able to use a computer you already have lying around which would make your costs effectively zero. You can find instructions in <Link href="https://docs.koinos.io" target="_blank">the official Koinos documentation</Link>.
+              Yes! In fact, you probably should. Koinos mining is very accessible. You might even be able to use a computer you already have lying around which would make your costs effectively zero. You can find instructions in <OutboundLink href="https://docs.koinos.io">the official Koinos documentation</OutboundLink>.
             </AccordionPanel>
           </AccordionItem>
           <AccordionItem>
@@ -117,7 +118,7 @@ const Home: NextPage = () => {
               <AccordionIcon />
             </AccordionButton>
             <AccordionPanel>
-              Yes! You can find the source code for the smart contracts at <Link href="https://github.com/lukemwillis/koinos-burn-pool" target="_blank">github/koinos-burn-pool</Link> and for the website at <Link href="https://github.com/lukemwillis/koinos-burn-pool-ui" target="_blank">github/koinos-burn-pool-ui</Link>
+              Yes! You can find the source code for the smart contracts at <OutboundLink href="https://github.com/lukemwillis/koinos-burn-pool">github/koinos-burn-pool</OutboundLink> and for the website at <OutboundLink href="https://github.com/lukemwillis/koinos-burn-pool-ui">github/koinos-burn-pool-ui</OutboundLink>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
