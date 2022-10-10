@@ -26,25 +26,25 @@ const Home: NextPage = () => {
   const { account } = useAccount();
 
   return (
-    <Flex direction="column" alignItems="center" minHeight="100vh" padding="20" gap={20}>
-      <Stack direction="row" alignItems="center">
-        <Logo size="256px" />
-        <Box textAlign="left">
-          <Heading as="h1" size="4xl" fontWeight="thin">
+    <Flex direction="column" alignItems="center" padding={{ base: "2em", md: "4em", lg: "8em" }} gap={{ base: "4em", md: "6em" }}>
+      <Stack direction={{ base: "column", md: "row" }} alignItems="center">
+        <Logo size={{ base: "175px", md: "250px" }} />
+        <Box textAlign={{ base: "center", md: "left" }}>
+          <Heading as="h1" size={{ base: "3xl", md: "4xl" }} fontWeight="thin">
             Burn KOIN.
           </Heading>
-          <Heading as="p" size="4xl" fontWeight="thin">
+          <Heading as="p" size={{ base: "3xl", md: "4xl" }} fontWeight="thin">
             Earn KOIN.
           </Heading>
-          <Heading as="p" size="4xl" fontWeight="thin">
+          <Heading as="p" size={{ base: "3xl", md: "4xl" }} fontWeight="thin">
             Simple.
           </Heading>
         </Box>
       </Stack>
 
-      <Box marginBottom="5vh">
+      <Box>
         {!account ? (
-          <WalletConnector onConnect={() => router.push("/dashboard")} />
+          <WalletConnector onConnect={() => router.push("/dashboard")} size="lg" />
         ) : (
           <Link href="/dashboard">
             <Button
@@ -52,6 +52,7 @@ const Home: NextPage = () => {
               minWidth="unset"
               fontWeight="bold"
               colorScheme="blue"
+              size="lg"
             >
               Go to dashboard
             </Button>
@@ -63,7 +64,7 @@ const Home: NextPage = () => {
         <PoolStats />
       </PoolBalancesProvider>
 
-      <Box textAlign="center" width="750px">
+      <Box textAlign="center" width={{ base: "100vw", md: "750px"}}>
         <Heading>FAQ</Heading>
 
         <Accordion textAlign="left">

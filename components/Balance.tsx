@@ -22,10 +22,10 @@ export default function Balance({ value, label, tooltip }: BalanceProps) {
         )}
       </Text>
       <Skeleton isLoaded={!!value} minWidth="350px" borderRadius={3} position="relative" zIndex="0">
-        <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
+        <Text fontSize={{ base: "4xl", md: "6xl" }} as="span" lineHeight={1} fontWeight="bold">
           {parseInt(whole).toLocaleString()}
         </Text>
-        <Text fontSize="3xl" as="span" lineHeight={1}>
+        <Text fontSize={{ base: "2xl", md: "3xl" }} as="span" lineHeight={1}>
           .{decimal}
         </Text>
       </Skeleton>

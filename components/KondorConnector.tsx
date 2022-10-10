@@ -3,9 +3,10 @@ import { useAccount } from "../context/AccountProvider";
 
 interface ConnectorProps {
   onConnect?: () => void;
+  size?: string;
 }
 
-export default function KondorConnector({ onConnect }: ConnectorProps) {
+export default function KondorConnector({ onConnect, size = "md" }: ConnectorProps) {
   const { account, isConnecting, connect } = useAccount();
 
   const connectCallback = async () => {
@@ -22,6 +23,7 @@ export default function KondorConnector({ onConnect }: ConnectorProps) {
       isLoading={isConnecting}
       minWidth="unset"
       fontWeight="normal"
+      size={size}
     >
       Connected as {account}
     </Button>
@@ -33,6 +35,7 @@ export default function KondorConnector({ onConnect }: ConnectorProps) {
       minWidth="unset"
       fontWeight="bold"
       colorScheme="blue"
+      size={size}
     >
       Connect with Kondor
     </Button>

@@ -8,6 +8,7 @@ import { RpcProvider } from "../context/RpcProvider";
 import { SwrProvider } from "../context/SwrProvider";
 import theme from "../styles/theme";
 import { ContractsProvider } from "../context/ContractsProvider";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -16,6 +17,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <RpcProvider>
           <AccountProvider>
             <ContractsProvider>
+              <Head>
+                <title>Burn Koin</title>
+                <meta
+                  name="viewport"
+                  content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
+                />
+              </Head>
               <Component {...pageProps} />
             </ContractsProvider>
           </AccountProvider>

@@ -1,8 +1,7 @@
-import { useColorModeValue } from "@chakra-ui/react";
-import Image from "next/image";
+import { useColorModeValue, Image, ResponsiveValue } from "@chakra-ui/react";
 
 interface LogoProps {
-    size: string;
+    size: ResponsiveValue<string>;
 }
 
 export default function Logo({ size }: LogoProps) {

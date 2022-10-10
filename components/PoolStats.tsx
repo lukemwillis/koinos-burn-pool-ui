@@ -2,14 +2,14 @@ import { Box, Flex, Text, Tooltip } from "@chakra-ui/react";
 
 import { usePoolBalances } from "../context/PoolBalancesProvider";
 import Balance from "../components/Balance";
-import { InfoIcon } from "@chakra-ui/icons";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 
 const PoolStats = () => {
   const { koin, vhp } = usePoolBalances();
 
   return (
-    <Box width="750px">
-      <Flex justifyContent="space-between">
+    <Box width={{ base: "100%", md: "750px" }} textAlign={{ base: "center", md: "left" }}>
+      <Flex justifyContent="space-between" alignItems="center" gap="32px" flexDirection={{ base: "column", md: "row" }}>
         <Balance
           label="Total Deposits (KOIN + VHP)"
           value={(parseInt(koin?.data) + parseInt(vhp?.data) || "").toString()}
@@ -22,13 +22,13 @@ const PoolStats = () => {
               placement="right"
               hasArrow
             >
-              <InfoIcon verticalAlign="text-top" />
+            <InfoOutlineIcon inlineSize="14px" paddingBottom="0.2em" />
             </Tooltip>
           </Text>
-          <Text fontSize="6xl" as="span" lineHeight={1} fontWeight="bold">
+          <Text fontSize={{ base: "4xl", md: "6xl" }} as="span" lineHeight={1} fontWeight="bold">
             3.8
           </Text>
-          <Text fontSize="3xl" as="span" lineHeight={1}>
+          <Text fontSize={{ base: "2xl", md: "3xl" }} as="span" lineHeight={1}>
             %
           </Text>
         </Box>
