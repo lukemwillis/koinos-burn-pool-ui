@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 
 import WalletConnector from "../components/KondorConnector";
-import { useAccount } from "../context/AccountProvider";
 import Logo from "../components/Logo";
 import Link from "next/link";
 import PoolBalancesProvider from "../context/PoolBalancesProvider";
@@ -23,8 +22,6 @@ import OutboundLink from "../components/OutboundLink";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { account } = useAccount();
-
   return (
     <Flex
       direction="column"

@@ -1,16 +1,10 @@
-import React, {
-  useContext,
-  createContext,
-} from "react";
-import { useContracts } from "./ContractsProvider";
-import useSWR, { SWRResponse } from "swr";
-import { getManaBalanceFetcher, getTokenBalanceFetcher } from "./BalanceUtils";
-
-const SWR_KEYS = {
-  POOL_KOIN: "pool_koin",
-  POOL_VHP: "pool_vhp",
-  POOL_MANA: "pool_mana"
-};
+import React, { useContext, createContext } from "react";
+import { SWRResponse } from "swr";
+import {
+  useKoinBalance,
+  useManaBalance,
+  useVhpBalance,
+} from "./BalanceUtils";
 
 type BalancesContextType = {
   koin?: SWRResponse;
@@ -27,23 +21,14 @@ const PoolBalancesProvider = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  const { koin, vhp, provider } = useContracts();
+  const balances = {
+    koin: useKoinBalance(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR!),
+    vhp: useVhpBalance(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR!),
+    mana: useManaBalance(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR!)
+  };
 
   return (
-    <BalancesContext.Provider value={{
-        koin: useSWR(
-          SWR_KEYS.POOL_KOIN,
-          getTokenBalanceFetcher(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR, koin)
-        ),
-        vhp: useSWR(
-          SWR_KEYS.POOL_VHP,
-          getTokenBalanceFetcher(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR, vhp)
-        ),
-        mana: useSWR(
-          SWR_KEYS.POOL_MANA,
-          getManaBalanceFetcher(process.env.NEXT_PUBLIC_POOL_CONTRACT_ADDR, provider)
-        )
-    }}>
+    <BalancesContext.Provider value={balances}>
       {children}
     </BalancesContext.Provider>
   );

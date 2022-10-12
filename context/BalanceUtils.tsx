@@ -1,6 +1,33 @@
 import { Contract, Provider, utils } from "koilib";
+import useSWR from "swr";
+import { useContracts } from "./ContractsProvider";
 
-export const getPoolBalanceFetcher =
+export const useKoinBalance = (account: string) => {
+  const { koin } = useContracts();
+  return useSWR(`${account}_koin`, getTokenBalanceFetcher(account, koin))
+};
+
+export const useVhpBalance = (account: string) => {
+  const { vhp } = useContracts();
+  return useSWR(`${account}_vhp`, getTokenBalanceFetcher(account, vhp))
+};
+
+export const usePvhpBalance = (account: string) => {
+  const { pvhp } = useContracts();
+  return useSWR(`${account}_pvhp`, getTokenBalanceFetcher(account, pvhp))
+};
+
+export const usePoolBalance = (account: string) => {
+  const { pool } = useContracts();
+  return useSWR(`${account}_pool`, getPoolBalanceFetcher(account, pool))
+};
+
+export const useManaBalance = (account: string) => {
+  const { provider } = useContracts();
+  return useSWR(`${account}_mana`, getManaBalanceFetcher(account, provider))
+};
+
+const getPoolBalanceFetcher =
   (
     account: string | undefined,
     pool: Contract | undefined
@@ -17,7 +44,7 @@ export const getPoolBalanceFetcher =
     return result?.value!;
   };
 
-export const getTokenBalanceFetcher =
+const getTokenBalanceFetcher =
   (
     owner: string | undefined,
     contract: Contract | undefined
@@ -34,7 +61,7 @@ export const getTokenBalanceFetcher =
     return result?.value!;
   };
 
-export const getManaBalanceFetcher =
+const getManaBalanceFetcher =
   (
     account: string | undefined,
     provider: Provider | undefined

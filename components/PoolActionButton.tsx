@@ -85,8 +85,6 @@ export default function PoolActionButton({
       value: utils.parseUnits(amount, 8),
     });
 
-    console.log(result);
-
     toast({
       title: `${token} ${noun} submitted`,
       description: `The transaction containing your ${token} ${noun} is being processed, this may take some time.`,
