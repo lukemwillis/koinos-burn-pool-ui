@@ -31,7 +31,7 @@ export default function KondorConnector({
         fontWeight="normal"
         size={size}
       >
-        Connected as {account}
+        Connected as {account.substring(0, 4)}...{account.substring(account.length - 4)}
       </Button>
     )
   ) : (
