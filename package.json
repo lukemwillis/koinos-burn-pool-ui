@@ -11,6 +11,8 @@
   "dependencies": {
     "@chakra-ui/icons": "^2.0.10",
     "@chakra-ui/react": "^2.3.4",
+    "@dicebear/avatars": "^4.10.5",
+    "@dicebear/avatars-identicon-sprites": "^4.10.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@fontsource/prompt": "^4.5.10",

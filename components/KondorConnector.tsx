@@ -1,5 +1,7 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Tooltip } from "@chakra-ui/react";
 import { useAccount } from "../context/AccountProvider";
+import { createAvatar } from "@dicebear/avatars";
+import * as identiconStyle from "@dicebear/avatars-identicon-sprites";
 
 interface ConnectorProps {
   onConnect?: () => void;
@@ -21,18 +23,31 @@ export default function KondorConnector({
     }
   };
 
+  const identicon = createAvatar(identiconStyle, { seed: account });
+
   return account ? (
     connectedVariant || (
-      <Button
-        onClick={connectCallback}
-        variant="outline"
-        isLoading={isConnecting}
-        minWidth="unset"
-        fontWeight="normal"
-        size={size}
-      >
-        Connected as {account.substring(0, 4)}...{account.substring(account.length - 4)}
-      </Button>
+      <Tooltip label={account} placement="bottom" hasArrow>
+        <Button
+          onClick={connectCallback}
+          variant="outline"
+          isLoading={isConnecting}
+          minWidth="unset"
+          fontWeight="normal"
+          size={size}
+        >
+          <span
+            dangerouslySetInnerHTML={{ __html: identicon }}
+            style={{
+              display: "block",
+              width: "18px",
+              height: "18px",
+              marginRight: "10px",
+            }}
+          />{" "}
+          {account.substring(0, 4)}...{account.substring(account.length - 4)}
+        </Button>
+      </Tooltip>
     )
   ) : (
     <Button
