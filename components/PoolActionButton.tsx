@@ -13,6 +13,8 @@ import {
   NumberInputField,
   Link,
   Text,
+  Spinner,
+  Stack,
 } from "@chakra-ui/react";
 import { utils } from "koilib";
 import { useDisclosure } from "@chakra-ui/react";
@@ -21,6 +23,8 @@ import { useContracts } from "../context/ContractsProvider";
 import { usePoolBalances } from "../context/PoolBalancesProvider";
 import { useAccountBalances } from "../context/AccountBalancesProvider";
 import { asFloat } from "../context/BalanceUtils";
+import Balance from "./Balance";
+import useSWR, { SWRResponse } from "swr";
 
 export enum Actions {
   Deposit = "Deposit",
@@ -42,15 +46,24 @@ export default function PoolActionButton({
   token,
 }: PoolActionButtonProps) {
   const { account } = useAccount();
-  const { pool: poolContract } = useContracts();
+  const { pool: poolContract, pvhp: pvhpContract } = useContracts();
   const accountBalances = useAccountBalances();
   const poolBalances = usePoolBalances();
 
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState("0");
 
   let noun: string, buttonText: string, max: number;
+
+  const pvhpTotalSupply = useSWR("pvhp_supply", async () => {
+    const { result } = await pvhpContract!.functions.totalSupply<{
+      value: string;
+    }>({});
+
+    return result?.value!;
+  });
 
   if (action === Actions.Deposit) {
     noun = "deposit";
@@ -72,30 +85,30 @@ export default function PoolActionButton({
     max =
       accountPool < poolTokens
         ? accountPvhp
-        : parseFloat((poolTokens * accountPvhp / accountPool).toFixed(8));
+        : parseFloat(((poolTokens * accountPvhp) / accountPool).toFixed(8));
   }
 
   const onPoolAction = async () => {
     if (!poolContract) return;
 
-    const result = await poolContract!.functions[
-      `${action.toLowerCase()}_${token.toLowerCase()}`
-    ]({
-      account,
-      value: utils.parseUnits(amount, 8),
-    });
-
-    toast({
-      title: `${token} ${noun} submitted`,
-      description: `The transaction containing your ${token} ${noun} is being processed, this may take some time.`,
-      status: "info",
-      duration: 5000,
-      isClosable: true,
-    });
-
-    onClose();
+    setLoading(true);
 
     try {
+      const result = await poolContract!.functions[
+        `${action.toLowerCase()}_${token.toLowerCase()}`
+      ]({
+        account,
+        value: utils.parseUnits(amount, 8),
+      });
+
+      toast({
+        title: `${token} ${noun} submitted`,
+        description: `The transaction containing your ${token} ${noun} is being processed, this may take some time.`,
+        status: "info",
+        duration: 5000,
+        isClosable: true,
+      });
+
       await result.transaction?.wait();
 
       toast({
@@ -115,6 +128,8 @@ export default function PoolActionButton({
       }
       accountBalances.pvhp?.mutate();
       accountBalances.pool?.mutate();
+
+      onClose();
     } catch (e) {
       // If the API errors, the original data will be
       // rolled back by SWR automatically.
@@ -124,6 +139,8 @@ export default function PoolActionButton({
         status: "error",
         isClosable: true,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,7 +150,12 @@ export default function PoolActionButton({
         {buttonText}
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        size={{ base: "full", md: "xl" }}
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
@@ -155,12 +177,61 @@ export default function PoolActionButton({
               max={max}
               size="lg"
             >
-              <NumberInputField />
+              <NumberInputField disabled={loading} autoFocus />
             </NumberInput>
             <Text>
-              <Link onClick={() => setAmount(max.toString())}>max: {max}</Link>{" "}
+              <Link onClick={() => !loading && setAmount(max.toFixed(8))}>
+                max: {max.toFixed(8)}
+              </Link>{" "}
               {action === Actions.Withdraw ? "pVHP" : token}
             </Text>
+
+            <Stack
+              borderWidth="thin"
+              borderColor="inherit"
+              borderRadius="md"
+              padding="4"
+              marginTop="6"
+              gap="3"
+            >
+              <Balance
+                label={`Your estimated ${token} after ${noun}`}
+                value={(
+                  parseInt(
+                    token === Tokens.KOIN ? (
+                      accountBalances.koin?.data
+                    ) : (
+                      accountBalances.vhp?.data
+                    )
+                  ) + (
+                    action === Actions.Deposit ? (
+                      -parseInt(utils.parseUnits(amount, 8))
+                    ) : Math.floor(
+                      parseInt(utils.parseUnits(amount, 8)) *
+                      (parseInt(poolBalances.koin?.data) +
+                        parseInt(poolBalances.vhp?.data)) /
+                      parseInt(pvhpTotalSupply.data || "0") 
+                    )
+                  )
+                ).toString()}
+              />
+              <Balance
+                label={`Your estimated pVHP after ${noun}`}
+                value={(
+                  parseInt(accountBalances.pvhp?.data) + (
+                    action === Actions.Withdraw ? (
+                      -parseInt(utils.parseUnits(amount, 8))
+                    ) : Math.floor(
+                      parseInt(utils.parseUnits(amount, 8)) *
+                      parseInt(pvhpTotalSupply.data || "0") /
+                      (parseInt(poolBalances.koin?.data) +
+                        parseInt(poolBalances.vhp?.data))
+                    )
+                  )
+                ).toString()}
+              />
+            </Stack>
+            <Text>*actual numbers may vary</Text>
           </ModalBody>
 
           <ModalFooter>
@@ -168,11 +239,11 @@ export default function PoolActionButton({
               colorScheme="blue"
               mr={3}
               onClick={onPoolAction}
-              disabled={parseFloat(amount) === 0}
+              disabled={parseFloat(amount) === 0 || loading}
             >
-              {action} {token}
+              {loading ? <Spinner /> : `${action} ${token}`}
             </Button>
-            <Button variant="ghost" onClick={onClose}>
+            <Button variant="ghost" onClick={onClose} disabled={loading}>
               Cancel
             </Button>
           </ModalFooter>
