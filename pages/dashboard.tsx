@@ -1,14 +1,14 @@
 import type { NextPage } from "next";
 import { Box } from "@chakra-ui/react";
 
-import Dashboard from "../components/Dashboard";
+import DashboardComponent from "../components/Dashboard";
 import WalletConnector from "../components/KondorConnector";
 import { useAccount } from "../context/AccountProvider";
 import Header from "../components/Header";
 import AccountBalancesProvider from "../context/AccountBalancesProvider";
 import PoolBalancesProvider from "../context/PoolBalancesProvider";
 
-const Home: NextPage = () => {
+const Dashboard: NextPage = () => {
   const { account } = useAccount();
 
   return (
@@ -22,7 +22,7 @@ const Home: NextPage = () => {
           <PoolBalancesProvider>
             <AccountBalancesProvider>
               <Header />
-              <Dashboard />
+              <DashboardComponent />
             </AccountBalancesProvider>
           </PoolBalancesProvider>
         </Box>
@@ -31,4 +31,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Dashboard;

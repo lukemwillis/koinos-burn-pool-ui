@@ -17,8 +17,8 @@ export default function KondorConnector({
   const { account, isConnecting, connect } = useAccount();
 
   const connectCallback = async () => {
-    await connect();
-    if (onConnect) {
+    const connected = await connect();
+    if (connected && onConnect) {
       onConnect();
     }
   };

@@ -6,12 +6,12 @@ const LOCAL_STORAGE_KEY = "ACCOUNT";
 type AccountContextType = {
   account?: string;
   isConnecting: boolean;
-  connect: () => Promise<void>;
+  connect: () => Promise<boolean>;
 };
 
 export const AccountContext = createContext<AccountContextType>({
   isConnecting: false,
-  connect: async () => undefined,
+  connect: async () => false,
 });
 
 export const useAccount = () => useContext(AccountContext);
@@ -40,9 +40,14 @@ export const AccountProvider = ({
   const connect = async () => {
     setIsConnecting(true);
     // @ts-ignore getAccounts returns objects, not strings
-    const [{ address }] = await kondor.getAccounts();
-    setAccount(address);
+    const [{ address }] = await Promise.race([
+      kondor.getAccounts(),
+      new Promise<{address:string}[]>((resolve) => setTimeout(() => resolve([{ address: "" }]), 10000))
+    ]);
+    if (address) setAccount(address);
     setIsConnecting(false);
+
+    return !!address;
   };
 
   return (
