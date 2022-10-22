@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@chakra-ui/react";
+import { Button, Tooltip, useToast } from "@chakra-ui/react";
 import { useAccount } from "../context/AccountProvider";
 import { createAvatar } from "@dicebear/avatars";
 import * as identiconStyle from "@dicebear/avatars-identicon-sprites";
@@ -15,10 +15,22 @@ export default function KondorConnector({
   connectedVariant,
 }: ConnectorProps) {
   const { account, isConnecting, connect } = useAccount();
+  const toast = useToast();
 
   const connectCallback = async () => {
     const connected = await connect();
-    if (connected && onConnect) {
+
+    if (!connected) {
+      toast({
+        title: `Failed to connect with Kondor`,
+        description: `Please check that you have Kondor installed in this browser and try again.`,
+        status: "error",
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (onConnect) {
       onConnect();
     }
   };
