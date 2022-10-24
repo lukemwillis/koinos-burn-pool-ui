@@ -100,7 +100,7 @@ export default function PoolActionButton({
         account,
         value: utils.parseUnits(amount, 8),
       });
-      
+
       toast({
         title: `${token} ${noun} submitted`,
         description: `The transaction containing your ${token} ${noun} is being processed, this may take some time.`,
@@ -135,7 +135,7 @@ export default function PoolActionButton({
       // rolled back by SWR automatically.
       toast({
         title: `${token} ${noun} failed`,
-        description: `The transaction containing your ${token} ${noun} failed.${token === Tokens.KOIN && ' This may be a result of not having enough mana. Consider depositing a smaller amount of KOIN.'} Please try again.`,
+        description: `The transaction containing your ${token} ${noun} failed.${token === Tokens.KOIN && action === Actions.Deposit && ' This may be a result of not having enough mana. Consider depositing a smaller amount of KOIN.'} Please try again.`,
         status: "error",
         isClosable: true,
       });
