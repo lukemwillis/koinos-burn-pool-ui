@@ -25,21 +25,14 @@ const Status: NextPage = () => {
     async () => {
       let numToFetch, head;
 
-      console.log('here');
-
       const { head_topology } = await provider?.getHeadInfo()!;
       head = parseInt(head_topology.height);
       numToFetch = 10;
 
-      console.log(head);
-
       const blocks = await provider?.getBlocks(head - numToFetch, numToFetch)!;
-
-      console.log({blocks});
 
       let copy = new Map(blockProducers);
       setBlockProducers(blocks.reduce((acc, curr) => {
-        console.log({ acc, curr })
         acc.set(curr.block_height, curr.block.header?.signer!);
         return acc;
       }, copy));

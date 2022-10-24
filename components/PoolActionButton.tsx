@@ -24,7 +24,7 @@ import { usePoolBalances } from "../context/PoolBalancesProvider";
 import { useAccountBalances } from "../context/AccountBalancesProvider";
 import { asFloat } from "../context/BalanceUtils";
 import Balance from "./Balance";
-import useSWR, { SWRResponse } from "swr";
+import useSWR from "swr";
 
 export enum Actions {
   Deposit = "Deposit",
@@ -70,7 +70,7 @@ export default function PoolActionButton({
     buttonText = `${action} ${token} →`;
     max =
       token === Tokens.KOIN
-        ? Math.max(asFloat(accountBalances.mana?.data!) - 1, 0)
+        ? Math.max(asFloat(accountBalances.mana?.data!) - 10, 0)
         : asFloat(accountBalances.vhp?.data!);
   } else {
     noun = "withdrawal";
@@ -100,7 +100,7 @@ export default function PoolActionButton({
         account,
         value: utils.parseUnits(amount, 8),
       });
-
+      
       toast({
         title: `${token} ${noun} submitted`,
         description: `The transaction containing your ${token} ${noun} is being processed, this may take some time.`,
@@ -135,7 +135,7 @@ export default function PoolActionButton({
       // rolled back by SWR automatically.
       toast({
         title: `${token} ${noun} failed`,
-        description: `The transaction containing your ${token} ${noun} failed. Please try again.`,
+        description: `The transaction containing your ${token} ${noun} failed.${token === Tokens.KOIN && ' This may be a result of not having enough mana. Consider depositing a smaller amount of KOIN.'} Please try again.`,
         status: "error",
         isClosable: true,
       });
