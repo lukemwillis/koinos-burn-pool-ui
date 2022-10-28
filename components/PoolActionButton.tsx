@@ -121,7 +121,11 @@ export default function PoolActionButton({
 
       if (token === Tokens.KOIN) {
         accountBalances.koin?.mutate();
-        poolBalances.koin?.mutate();
+        if (action === Actions.Deposit) {
+          poolBalances.vhp?.mutate();
+        } else {
+          poolBalances.koin?.mutate();
+        }
       } else {
         accountBalances.vhp?.mutate();
         poolBalances.vhp?.mutate();
@@ -135,7 +139,7 @@ export default function PoolActionButton({
       // rolled back by SWR automatically.
       toast({
         title: `${token} ${noun} failed`,
-        description: `The transaction containing your ${token} ${noun} failed.${token === Tokens.KOIN && action === Actions.Deposit ? ' This may be a result of not having enough mana. Consider depositing a smaller amount of KOIN.' : ''} Please try again.`,
+        description: `The transaction containing your ${token} ${noun} failed with error message: ${e}`,
         status: "error",
         isClosable: true,
       });
