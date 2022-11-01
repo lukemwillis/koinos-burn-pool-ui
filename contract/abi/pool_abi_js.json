@@ -279,6 +279,10 @@
                                 "options": {
                                     "jstype": "JS_STRING"
                                 }
+                            },
+                            "burnDeposits": {
+                                "type": "bool",
+                                "id": 4
                             }
                         }
                     },

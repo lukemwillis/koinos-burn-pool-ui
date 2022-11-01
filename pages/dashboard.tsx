@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Box } from "@chakra-ui/react";
+import { Box, Button } from "@chakra-ui/react";
 
 import DashboardComponent from "../components/Dashboard";
 import WalletConnector from "../components/KondorConnector";
@@ -13,7 +13,21 @@ const Dashboard: NextPage = () => {
 
   return (
     <Box minHeight="100vh">
-      {!account ? (
+      {process.env.NEXT_PUBLIC_DISABLE_ACCESS === "true" ? (
+        <Box marginTop="40vh" textAlign="center">
+          <a href="https://test.burnkoin.com">
+            <Button
+              variant="solid"
+              minWidth="unset"
+              fontWeight="bold"
+              colorScheme="blue"
+              size="lg"
+            >
+              Go to testnet pool
+            </Button>
+          </a>
+        </Box>
+      ) : !account ? (
         <Box marginTop="40vh" textAlign="center">
           <WalletConnector />
         </Box>

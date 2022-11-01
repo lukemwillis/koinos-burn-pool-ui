@@ -25,7 +25,7 @@ export const RpcProvider = ({
 }: {
   children: React.ReactNode;
 }): JSX.Element => {
-  const [rpc, setRpc] = useState(process.env.NEXT_PUBLIC_KOINOS_RPC_URL!);
+  const [rpc, setRpc] = useState(process.env.NEXT_PUBLIC_KOINOS_RPC_URL!.split(',')[0]);
 
   useEffect(() => {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
