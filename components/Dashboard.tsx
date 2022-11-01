@@ -60,7 +60,7 @@ export default function Dashboard() {
             tooltip={`All KOIN held by pool and awaiting reburn. ${utils.formatUnits(
               pool.mana?.data || "0",
               8
-            )} is liquid and available to withdraw minus a pool enforced 10 KOIN buffer to pay mana for block production.`}
+            )} is liquid and available to withdraw. Pool enforces a KOIN buffer to pay mana for block production.`}
             value={pool.koin?.data}
           />
           <PoolActionButton action={Actions.Withdraw} token={Tokens.KOIN} />
