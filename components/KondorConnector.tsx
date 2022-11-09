@@ -39,7 +39,7 @@ export default function KondorConnector({
 
   return account ? (
     connectedVariant || (
-      <Tooltip label={account} placement="bottom" hasArrow>
+      <Tooltip label={isConnecting ? 'Connecting to Kondor...' : account} placement="bottom" hasArrow>
         <Button
           onClick={connectCallback}
           variant="outline"

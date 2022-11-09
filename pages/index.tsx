@@ -44,45 +44,29 @@ const Home: NextPage = () => {
         </Box>
       </Stack>
 
-      {process.env.NEXT_PUBLIC_DISABLE_ACCESS === "true" ? (
-        <a href="https://test.burnkoin.com">
-          <Button
-            variant="solid"
-            minWidth="unset"
-            fontWeight="bold"
-            colorScheme="blue"
-            size="lg"
-          >
-            Go to testnet pool
-          </Button>
-        </a>
-      ) : (
-        <>
-          <Box>
-            <WalletConnector
-              onConnect={() => router.push("/dashboard")}
-              size="lg"
-              connectedVariant={
-                <Link href="/dashboard">
-                  <Button
-                    variant="solid"
-                    minWidth="unset"
-                    fontWeight="bold"
-                    colorScheme="blue"
-                    size="lg"
-                  >
-                    Go to dashboard
-                  </Button>
-                </Link>
-              }
-            />
-          </Box>
+      <Box>
+        <WalletConnector
+          onConnect={() => router.push("/dashboard")}
+          size="lg"
+          connectedVariant={
+            <Link href="/dashboard">
+              <Button
+                variant="solid"
+                minWidth="unset"
+                fontWeight="bold"
+                colorScheme="blue"
+                size="lg"
+              >
+                Go to dashboard
+              </Button>
+            </Link>
+          }
+        />
+      </Box>
 
-          <PoolBalancesProvider>
-            <PoolStats />
-          </PoolBalancesProvider>
-        </>
-      )}
+      <PoolBalancesProvider>
+        <PoolStats />
+      </PoolBalancesProvider>
 
       <Box textAlign="center" width={{ base: "100vw", md: "750px" }}>
         <Heading>FAQ</Heading>
