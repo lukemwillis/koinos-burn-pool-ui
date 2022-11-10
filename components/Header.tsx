@@ -1,9 +1,8 @@
 import { Flex, Stack } from "@chakra-ui/react";
 import WalletConnector from "./KondorConnector";
-import ColorModeToggle from "./ColorModeToggle";
-import RpcSelector from "./RpcSelector";
 import Logo from "./Logo";
 import Link from "next/link";
+import SettingsDrawer from "./SettingsDrawer";
 
 export default function Header() {
   return (
@@ -18,10 +17,9 @@ export default function Header() {
           <Logo size="64px" />
         </a>
       </Link>
-      <Stack direction={"row"} spacing={7}>
+      <Stack direction={"row"} spacing={{ base: 4, md: 7 }}>
         <WalletConnector />
-        <RpcSelector />
-        <ColorModeToggle />
+        <SettingsDrawer />
       </Stack>
     </Flex>
   );

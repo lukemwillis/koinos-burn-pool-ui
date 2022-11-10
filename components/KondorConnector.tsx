@@ -1,4 +1,4 @@
-import { Button, Tooltip, useToast } from "@chakra-ui/react";
+import { Button, Text, Tooltip, useToast } from "@chakra-ui/react";
 import { useAccount } from "../context/AccountProvider";
 import { createAvatar } from "@dicebear/avatars";
 import * as identiconStyle from "@dicebear/avatars-identicon-sprites";
@@ -39,7 +39,20 @@ export default function KondorConnector({
 
   return account ? (
     connectedVariant || (
-      <Tooltip label={isConnecting ? 'Connecting to Kondor...' : account} placement="bottom" hasArrow>
+      <Tooltip
+        label={
+          isConnecting ? (
+            "Connecting to Kondor..."
+          ) : (
+            <>
+              <Text>{account}</Text>
+              <Text>Click to connect a different address</Text>
+            </>
+          )
+        }
+        placement="bottom"
+        hasArrow
+      >
         <Button
           onClick={connectCallback}
           variant="outline"
