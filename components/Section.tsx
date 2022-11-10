@@ -2,7 +2,7 @@ import { Box, GridItem, Text } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 interface SectionProps {
-  heading: string;
+  heading?: string;
   children: ReactNode;
   colspan?: number;
   rowspan?: number;

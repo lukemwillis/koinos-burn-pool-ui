@@ -5,8 +5,10 @@ import Balance from "./Balance";
 import PoolActionButton, { Actions, Tokens } from "./PoolActionButton";
 import Section from "./Section";
 import { utils } from "koilib";
+import ManaOrb from "./ManaOrb";
+import { asFloat } from "../context/BalanceUtils";
 
-export default function Dashboard() {
+export default function AdvancedDashboard() {
   const pool = usePoolBalances();
   const account = useAccountBalances();
 
@@ -34,14 +36,19 @@ export default function Dashboard() {
       </Section>
       <Section heading="Your Wallet">
         <Box>
-          <Balance
-            label="Your KOIN"
-            tooltip={`${utils.formatUnits(
-              account.mana?.data || "0",
-              8
-            )} liquid and available to deposit. You will need to leave a small buffer in your wallet to pay the mana for depositing.`}
-            value={account.koin?.data}
-          />
+          <Flex direction="row" alignItems="end" justifyContent="space-between">
+            <Balance
+              label="Your KOIN"
+              tooltip={`${utils.formatUnits(
+                account.mana?.data || "0",
+                8
+              )} liquid and available to deposit. You will need to leave a small buffer in your wallet to pay the mana for depositing.`}
+              value={account.koin?.data}
+            />
+            <ManaOrb
+              percent={asFloat(pool.mana?.data) / asFloat(pool.koin?.data)}
+            />
+          </Flex>
           <PoolActionButton action={Actions.Deposit} token={Tokens.KOIN} />
         </Box>
         <Box marginTop={8}>
@@ -55,14 +62,19 @@ export default function Dashboard() {
       </Section>
       <Section heading="Pool Treasury">
         <Box>
-          <Balance
-            label="Pool KOIN"
-            tooltip={`All KOIN held by pool and awaiting reburn. ${utils.formatUnits(
-              pool.mana?.data || "0",
-              8
-            )} is liquid and available to withdraw. Pool enforces a KOIN buffer to pay mana for block production.`}
-            value={pool.koin?.data}
-          />
+          <Flex direction="row" alignItems="end" justifyContent="space-between">
+            <Balance
+              label="Pool KOIN"
+              tooltip={`All KOIN held by pool and awaiting reburn. ${utils.formatUnits(
+                pool.mana?.data || "0",
+                8
+              )} is liquid and available to withdraw. Pool enforces a KOIN buffer to pay mana for block production.`}
+              value={pool.koin?.data}
+            />
+            <ManaOrb
+              percent={asFloat(pool.mana?.data) / asFloat(pool.koin?.data)}
+            />
+          </Flex>
           <PoolActionButton action={Actions.Withdraw} token={Tokens.KOIN} />
         </Box>
         <Box marginTop={8}>

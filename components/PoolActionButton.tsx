@@ -70,7 +70,8 @@ export default function PoolActionButton({
     buttonText = `${action} ${token} →`;
     max =
       token === Tokens.KOIN
-        ? Math.max(asFloat(accountBalances.mana?.data!) - 10, 0)
+        // TODO make deposit minimum dynamic, alert?
+        ? Math.max(asFloat(accountBalances.mana?.data!) - 1, 0)
         : asFloat(accountBalances.vhp?.data!);
   } else {
     noun = "withdrawal";
@@ -80,12 +81,10 @@ export default function PoolActionButton({
     const accountPvhp = asFloat(accountBalances.pvhp?.data!);
     const poolTokens =
       token === Tokens.KOIN
+        // TODO read metadata for koin buffer
         ? Math.max(asFloat(poolBalances.mana?.data!) - 10, 0)
         : asFloat(poolBalances.vhp?.data!);
-    max =
-      accountPool < poolTokens
-        ? accountPvhp
-        : parseFloat(((poolTokens * accountPvhp) / accountPool).toFixed(8));
+    max = Math.min(accountPool, poolTokens);
   }
 
   const onPoolAction = async () => {
@@ -98,7 +97,14 @@ export default function PoolActionButton({
         `${action.toLowerCase()}_${token.toLowerCase()}`
       ]({
         account,
-        value: utils.parseUnits(amount, 8),
+        value:
+          action === Actions.Deposit
+            ? utils.parseUnits(amount, 8)
+            : (
+                (asFloat(amount) * parseInt(pvhpTotalSupply.data || "0")) /
+                (parseInt(poolBalances.koin?.data) +
+                  parseInt(poolBalances.vhp?.data))
+              ).toFixed(8),
       });
 
       toast({
@@ -168,11 +174,7 @@ export default function PoolActionButton({
           <ModalCloseButton />
 
           <ModalBody>
-            <Text>
-              {action === Actions.Withdraw
-                ? `pVHP amount to redeem for ${token}`
-                : `${token} amount`}
-            </Text>
+            <Text>{token} amount</Text>
             <NumberInput
               value={amount}
               onChange={setAmount}
@@ -187,7 +189,7 @@ export default function PoolActionButton({
               <Link onClick={() => !loading && setAmount(max.toFixed(8))}>
                 max: {max.toFixed(8)}
               </Link>{" "}
-              {action === Actions.Withdraw ? "pVHP" : token}
+              {token}
             </Text>
 
             <Stack
@@ -202,36 +204,22 @@ export default function PoolActionButton({
                 label={`Your estimated ${token} after ${noun}`}
                 value={(
                   parseInt(
-                    token === Tokens.KOIN ? (
-                      accountBalances.koin?.data
-                    ) : (
-                      accountBalances.vhp?.data
-                    )
-                  ) + (
-                    action === Actions.Deposit ? (
-                      -parseInt(utils.parseUnits(amount, 8))
-                    ) : Math.floor(
-                      parseInt(utils.parseUnits(amount, 8)) *
-                      (parseInt(poolBalances.koin?.data) +
-                        parseInt(poolBalances.vhp?.data)) /
-                      parseInt(pvhpTotalSupply.data || "0") 
-                    )
-                  )
+                    token === Tokens.KOIN
+                      ? accountBalances.koin?.data
+                      : accountBalances.vhp?.data
+                  ) +
+                  (action === Actions.Deposit
+                    ? -parseInt(utils.parseUnits(amount, 8))
+                    : parseInt(utils.parseUnits(amount, 8)))
                 ).toString()}
               />
               <Balance
-                label={`Your estimated pVHP after ${noun}`}
+                label={`Your estimated pooled value after ${noun}`}
                 value={(
-                  parseInt(accountBalances.pvhp?.data) + (
-                    action === Actions.Withdraw ? (
-                      -parseInt(utils.parseUnits(amount, 8))
-                    ) : Math.floor(
-                      parseInt(utils.parseUnits(amount, 8)) *
-                      parseInt(pvhpTotalSupply.data || "0") /
-                      (parseInt(poolBalances.koin?.data) +
-                        parseInt(poolBalances.vhp?.data))
-                    )
-                  )
+                  parseInt(accountBalances.pool?.data) +
+                  (action === Actions.Withdraw
+                    ? -parseInt(utils.parseUnits(amount, 8))
+                    : parseInt(utils.parseUnits(amount, 8)))
                 ).toString()}
               />
             </Stack>
