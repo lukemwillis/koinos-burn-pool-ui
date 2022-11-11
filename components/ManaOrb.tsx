@@ -14,7 +14,7 @@ export default function ManaOrb({ percent }: ManaOrbProps) {
   const {
     colors: { gray, white, purple, whiteAlpha },
   } = useTheme();
-  const formattedPercent = Math.floor(percent * 100) || 0;
+  const formattedPercent = Math.floor(percent * 100) || 1;
 
   const spin = keyframes`
     0% {transform: rotate(0deg);}

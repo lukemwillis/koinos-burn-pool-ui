@@ -80,7 +80,6 @@ export default function PoolActionButton({
     buttonText = `← ${action} ${token}`;
 
     const accountPool = asFloat(accountBalances.pool?.data!);
-    const accountPvhp = asFloat(accountBalances.pvhp?.data!);
     const poolTokens =
       token === Tokens.KOIN
         ? // TODO read metadata for koin buffer
@@ -103,10 +102,11 @@ export default function PoolActionButton({
           action === Actions.Deposit
             ? utils.parseUnits(amount, 8)
             : (
-                (asFloat(amount) * parseInt(pvhpTotalSupply.data || "0")) /
+                (parseInt(utils.parseUnits(amount, 8)) *
+                  parseInt(pvhpTotalSupply.data || "0")) /
                 (parseInt(poolBalances.koin?.data) +
                   parseInt(poolBalances.vhp?.data))
-              ).toFixed(8),
+              ).toString(),
       });
 
       toast({
