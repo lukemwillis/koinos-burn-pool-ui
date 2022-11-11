@@ -29,7 +29,7 @@ export default function ManaOrb({ percent }: ManaOrbProps) {
   `;
 
   return (
-    <Tooltip label={`${formattedPercent}% Mana`} placement="bottom" hasArrow>
+    <Tooltip label={`${percent >= 0.01 ? formattedPercent : "<1"}% Mana`} placement="bottom" hasArrow>
       <Box
         width="3.5em"
         height="3.5em"

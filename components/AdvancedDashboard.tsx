@@ -46,7 +46,7 @@ export default function AdvancedDashboard() {
               value={account.koin?.data}
             />
             <ManaOrb
-              percent={asFloat(pool.mana?.data) / asFloat(pool.koin?.data)}
+              percent={asFloat(account.mana?.data) / asFloat(account.koin?.data)}
             />
           </Flex>
           <PoolActionButton action={Actions.Deposit} token={Tokens.KOIN} />
