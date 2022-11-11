@@ -15,6 +15,7 @@ import {
   Text,
   Spinner,
   Stack,
+  Flex,
 } from "@chakra-ui/react";
 import { utils } from "koilib";
 import { useDisclosure } from "@chakra-ui/react";
@@ -25,6 +26,7 @@ import { useAccountBalances } from "../context/AccountBalancesProvider";
 import { asFloat } from "../context/BalanceUtils";
 import Balance from "./Balance";
 import useSWR from "swr";
+import { InfoIcon } from "@chakra-ui/icons";
 
 export enum Actions {
   Deposit = "Deposit",
@@ -70,8 +72,8 @@ export default function PoolActionButton({
     buttonText = `${action} ${token} →`;
     max =
       token === Tokens.KOIN
-        // TODO make deposit minimum dynamic, alert?
-        ? Math.max(asFloat(accountBalances.mana?.data!) - 1, 0)
+        ? // TODO make deposit minimum dynamic, alert?
+          Math.max(asFloat(accountBalances.mana?.data!) - 1, 0)
         : asFloat(accountBalances.vhp?.data!);
   } else {
     noun = "withdrawal";
@@ -81,8 +83,8 @@ export default function PoolActionButton({
     const accountPvhp = asFloat(accountBalances.pvhp?.data!);
     const poolTokens =
       token === Tokens.KOIN
-        // TODO read metadata for koin buffer
-        ? Math.max(asFloat(poolBalances.mana?.data!) - 10, 0)
+        ? // TODO read metadata for koin buffer
+          Math.max(asFloat(poolBalances.mana?.data!) - 10, 0)
         : asFloat(poolBalances.vhp?.data!);
     max = Math.min(accountPool, poolTokens);
   }
@@ -191,6 +193,33 @@ export default function PoolActionButton({
               </Link>{" "}
               {token}
             </Text>
+
+            {token === Tokens.KOIN && (
+              <Flex
+                borderWidth="thin"
+                borderColor="inherit"
+                borderRadius="md"
+                padding="4"
+                marginTop="3"
+                alignItems="center"
+              >
+                <InfoIcon marginRight="1em" />
+                <Text>
+                  {action === Actions.Deposit &&
+                    "Liquidity is minimized to maximize returns. Don't deposit KOIN you're not willing to commit to long term block production. "}
+                  The maximum KOIN you can {action.toLowerCase()} is equal to{" "}
+                  {action === Actions.Deposit ? "your" : "the pool's"} available
+                  mana, minus a {action === Actions.Deposit ? "1" : "10"} KOIN
+                  buffer to ensure{" "}
+                  {action === Actions.Deposit ? "you have" : "the pool has"}{" "}
+                  enough mana to pay for{" "}
+                  {action === Actions.Deposit
+                    ? "the deposit"
+                    : "producing blocks"}
+                  .
+                </Text>
+              </Flex>
+            )}
 
             <Stack
               borderWidth="thin"
