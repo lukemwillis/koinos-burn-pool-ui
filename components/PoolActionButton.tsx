@@ -127,19 +127,20 @@ export default function PoolActionButton({
         isClosable: true,
       });
 
+      setAmount("0");
+
       if (token === Tokens.KOIN) {
         accountBalances.koin?.mutate();
-        if (action === Actions.Deposit) {
-          poolBalances.vhp?.mutate();
-        } else {
-          poolBalances.koin?.mutate();
-        }
+        poolBalances.vhp?.mutate();
+        poolBalances.koin?.mutate();
+        poolBalances.mana?.mutate();
       } else {
         accountBalances.vhp?.mutate();
         poolBalances.vhp?.mutate();
       }
       accountBalances.pvhp?.mutate();
       accountBalances.pool?.mutate();
+      accountBalances.mana?.mutate();
 
       onClose();
     } catch (e) {
