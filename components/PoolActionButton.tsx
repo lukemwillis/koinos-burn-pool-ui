@@ -127,6 +127,8 @@ export default function PoolActionButton({
         isClosable: true,
       });
 
+      setAmount("0");
+
       if (token === Tokens.KOIN) {
         accountBalances.koin?.mutate();
         poolBalances.vhp?.mutate();
