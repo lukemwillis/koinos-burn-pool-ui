@@ -107,6 +107,9 @@ export default function PoolActionButton({
                 (parseInt(poolBalances.koin?.data) +
                   parseInt(poolBalances.vhp?.data))
               ).toString(),
+        
+      }, {
+        rcLimit: `${Math.min(parseInt(utils.parseUnits(accountBalances.mana?.data, 8)), 100000000)}`
       });
 
       toast({
