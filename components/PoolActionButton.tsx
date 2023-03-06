@@ -109,7 +109,7 @@ export default function PoolActionButton({
               ).toString(),
         
       }, {
-        rcLimit: `${Math.min(parseInt(utils.parseUnits(accountBalances.mana?.data, 8)), 100000000)}`
+        rcLimit: `${Math.min(parseInt(accountBalances.mana?.data), 100000000)}`
       });
 
       toast({
