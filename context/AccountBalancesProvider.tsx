@@ -1,6 +1,5 @@
 import React, { useContext, createContext } from "react";
 import { useAccount } from "./AccountProvider";
-import poolAbi from "../contract/abi/pool_abi_js.json";
 import { SWRResponse } from "swr";
 import {
   useKoinBalance,
@@ -9,9 +8,6 @@ import {
   usePoolBalance,
   useManaBalance,
 } from "./BalanceUtils";
-
-// @ts-ignore koilib_types is needed when using koilib
-poolAbi.koilib_types = poolAbi.types;
 
 type BalancesContextType = {
   koin?: SWRResponse;
