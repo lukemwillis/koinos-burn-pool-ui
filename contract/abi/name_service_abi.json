@@ -1,0 +1,26 @@
+{
+    "methods": {
+         "set_record": {
+            "argument": "koinos.contracts.name_service.set_record_arguments",
+            "return": "koinos.contracts.name_service.set_record_result",
+            "description": "Sets a name record in the name service",
+            "entry_point": 3796420410,
+            "read_only": false
+        },
+        "get_name": {
+            "argument": "koinos.contracts.name_service.get_name_arguments",
+            "return": "koinos.contracts.name_service.get_name_result",
+            "description": "Gets the name of a contract registered with the name service",
+            "entry_point": 3842443798,
+            "read_only": true
+        },
+        "get_address": {
+            "argument": "koinos.contracts.name_service.get_address_arguments",
+            "return": "koinos.contracts.name_service.get_address_result",
+            "description": "Gets the address of a contract registered with the name service",
+            "entry_point": 2786780648,
+            "read_only": true
+        }
+    },
+    "types": "CsoFCjBrb2lub3MvY29udHJhY3RzL25hbWVfc2VydmljZS9uYW1lX3NlcnZpY2UucHJvdG8SHWtvaW5vcy5jb250cmFjdHMubmFtZV9zZXJ2aWNlGhRrb2lub3Mvb3B0aW9ucy5wcm90byIhCgtuYW1lX3JlY29yZBISCgRuYW1lGAEgASgJUgRuYW1lIjAKDmFkZHJlc3NfcmVjb3JkEh4KB2FkZHJlc3MYASABKAxCBIC1GAZSB2FkZHJlc3MiKwoVZ2V0X2FkZHJlc3NfYXJndW1lbnRzEhIKBG5hbWUYASABKAlSBG5hbWUiWQoSZ2V0X2FkZHJlc3NfcmVzdWx0EkMKBXZhbHVlGAEgASgLMi0ua29pbm9zLmNvbnRyYWN0cy5uYW1lX3NlcnZpY2UuYWRkcmVzc19yZWNvcmRSBXZhbHVlIjQKEmdldF9uYW1lX2FyZ3VtZW50cxIeCgdhZGRyZXNzGAEgASgMQgSAtRgGUgdhZGRyZXNzIlMKD2dldF9uYW1lX3Jlc3VsdBJACgV2YWx1ZRgBIAEoCzIqLmtvaW5vcy5jb250cmFjdHMubmFtZV9zZXJ2aWNlLm5hbWVfcmVjb3JkUgV2YWx1ZSJKChRzZXRfcmVjb3JkX2FyZ3VtZW50cxISCgRuYW1lGAEgASgJUgRuYW1lEh4KB2FkZHJlc3MYAiABKAxCBIC1GAZSB2FkZHJlc3MiEwoRc2V0X3JlY29yZF9yZXN1bHQiSQoTcmVjb3JkX3VwZGF0ZV9ldmVudBISCgRuYW1lGAEgASgJUgRuYW1lEh4KB2FkZHJlc3MYAiABKAxCBIC1GAZSB2FkZHJlc3NCRVpDZ2l0aHViLmNvbS9rb2lub3Mva29pbm9zLXByb3RvLWdvbGFuZy9rb2lub3MvY29udHJhY3RzL25hbWUtc2VydmljZWIGcHJvdG8z"
+}

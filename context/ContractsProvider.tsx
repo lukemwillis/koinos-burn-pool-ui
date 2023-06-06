@@ -1,15 +1,16 @@
-import React, { useContext, createContext } from "react";
+import React, {
+  useContext,
+  createContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import { Contract, Provider, Signer, utils } from "koilib";
 import * as kondor from "../node_modules/kondor-js/lib/browser";
 import { useAccount } from "./AccountProvider";
 import { useRpc } from "./RpcProvider";
-import poolAbiJson from "../contract/abi/pool_abi_js.json";
-import { Abi } from "koilib/lib/interface";
-
-const poolAbi: Abi = {
-  koilib_types: poolAbiJson.types,
-  ...poolAbiJson
-};
+import poolAbi from "../contract/abi/pool_abi.json";
+import nameServiceAbi from "../contract/abi/name_service_abi.json";
 
 type ContractsContextType = {
   provider?: Provider;
@@ -30,26 +31,49 @@ export const ContractsProvider = ({
 }): JSX.Element => {
   const { account } = useAccount();
   const { rpc } = useRpc();
+  const [koinAddress, setKoinAddress] = useState();
+  const [vhpAddress, setVhpAddress] = useState();
 
-  const provider = new Provider(rpc!);
-  const signer = account ? kondor.getSigner(account) as Signer : undefined;
+  const provider = useMemo(() => new Provider(rpc!), [rpc]);
+  const signer = account ? (kondor.getSigner(account) as Signer) : undefined;
+
+  useEffect(() => {
+    const nameService = new Contract({
+      id: process.env.NEXT_PUBLIC_NAME_SERVICE_CONTRACT_ADDR,
+      abi: nameServiceAbi,
+      provider,
+      signer,
+    });
+
+    nameService.functions.get_address({ name: "koin" }).then(({ result }) => {
+      setKoinAddress(result!.value.address);
+    });
+
+    nameService.functions.get_address({ name: "vhp" }).then(({ result }) => {
+      setVhpAddress(result!.value.address);
+    });
+  }, [provider, signer]);
 
   return (
     <ContractsContext.Provider
       value={{
         provider: provider,
-        koin: new Contract({
-          id: process.env.NEXT_PUBLIC_KOIN_CONTRACT_ADDR,
-          abi: utils.tokenAbi,
-          provider: provider,
-          signer: signer,
-        }),
-        vhp: new Contract({
-          id: process.env.NEXT_PUBLIC_VHP_CONTRACT_ADDR,
-          abi: utils.tokenAbi,
-          provider: provider,
-          signer: signer,
-        }),
+        koin: koinAddress
+          ? new Contract({
+              id: koinAddress,
+              abi: utils.tokenAbi,
+              provider: provider,
+              signer: signer,
+            })
+          : undefined,
+        vhp: vhpAddress
+          ? new Contract({
+              id: vhpAddress,
+              abi: utils.tokenAbi,
+              provider: provider,
+              signer: signer,
+            })
+          : undefined,
         pvhp: new Contract({
           id: process.env.NEXT_PUBLIC_PVHP_CONTRACT_ADDR,
           abi: utils.tokenAbi,
